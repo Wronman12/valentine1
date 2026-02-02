@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💝 Be My Valentine? 💝</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffe0f0 50%, #ffd4ea 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            max-width: 500px;
+            width: 95%;
+            margin: auto;
+        }
+
+        .heart-face {
+            font-size: 100px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            10% { transform: scale(1.1); }
+            20% { transform: scale(1); }
+            30% { transform: scale(1.1); }
+            40% { transform: scale(1); }
+        }
+
+        .valentine-symbol {
+            font-size: 50px;
+            margin: 10px;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        h1 {
+            color: #ff1493;
+            font-size: 28px;
+            margin: 20px 0;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 3px solid #ffb6c1;
+            border-radius: 12px;
+            margin: 10px 0;
+            font-family: 'Comic Sans MS', cursive;
+            text-align: center;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #ff69b4;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            padding: 15px 40px;
+            font-size: 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 20, 147, 0.4);
+            transition: transform 0.2s;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .question {
+            font-size: 26px;
+            color: #ff1493;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        .buttons-container {
+            position: relative;
+            margin-top: 40px;
+            min-height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+            touch-action: none;
+        }
+
+        .yes-btn, .no-btn {
+            padding: 18px 60px;
+            font-size: 24px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Comic Sans MS', cursive;
+            transition: all 0.2s;
+            touch-action: manipulation;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: white;
+            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4);
+            position: relative;
+            z-index: 10;
+        }
+
+        .yes-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .yes-btn:active {
+            transform: scale(0.95);
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+            color: white;
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.4);
+            position: absolute;
+            z-index: 5;
+        }
+
+        .celebration {
+            display: none;
+        }
+
+        .celebration.active {
+            display: block;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .celebration h2 {
+            font-size: 36px;
+            color: #ff1493;
+            margin: 20px 0;
+        }
+
+        .celebration-hearts {
+            font-size: 50px;
+            margin: 20px 0;
+        }
+
+        .floating-hearts {
+            position: fixed;
+            font-size: 30px;
+            animation: floatUp 4s ease-in infinite;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .info-box {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 2px solid #2196f3;
+        }
+
+        .info-box p {
+            color: #1976d2;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        @media (max-width: 600px) {
+            .heart-face {
+                font-size: 70px;
+            }
+            
+            h1 {
+                font-size: 22px;
+            }
+            
+            .question {
+                font-size: 22px;
+            }
+            
+            .yes-btn, .no-btn {
+                padding: 15px 45px;
+                font-size: 20px;
+            }
+            
+            .valentine-symbol {
+                font-size: 35px;
+            }
+
+            .buttons-container {
+                min-height: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Step 1: Sender enters details -->
+        <div id="senderPage" class="card">
+            <div class="heart-face">😍</div>
+            <div>
+                <span class="valentine-symbol">💕</span>
+                <span class="valentine-symbol">💖</span>
+                <span class="valentine-symbol">💝</span>
+            </div>
+            <h1>Send a Valentine Proposal! 💌</h1>
+            
+            <input type="text" id="crushNameInput" placeholder="Your crush's name... 💗">
+            <input type="text" id="yourNameInput" placeholder="Your name... ✨">
+            <input type="text" id="whatsappInput" placeholder="Your WhatsApp (e.g., +911234567890) 📱">
+            
+            <div class="info-box">
+                <p><strong>📱 How it works:</strong></p>
+                <p>1. Enter the details above</p>
+                <p>2. Click "Create Proposal"</p>
+                <p>3. Share this page link with your crush!</p>
+                <p>4. When they say YES, you'll get a WhatsApp message! 💕</p>
+            </div>
+            
+            <button class="btn" onclick="createProposal()">✨ Create Proposal</button>
+        </div>
+
+        <!-- Step 2: Proposal page (what crush sees) -->
+        <div id="proposalPage" class="card hidden">
+            <div class="heart-face">🥰</div>
+            <div>
+                <span class="valentine-symbol">❤️</span>
+                <span class="valentine-symbol">💗</span>
+                <span class="valentine-symbol">💓</span>
+            </div>
+            <p class="question">Hey <span id="crushNameDisplay"></span>! 💖</p>
+            <p class="question">Will you be my Valentine? 🌹</p>
+            <p style="color: #ff69b4; font-size: 18px; margin-top: 10px;">- <span id="senderNameDisplay"></span> 💕</p>
+            
+            <div class="buttons-container" id="buttonsContainer">
+                <button class="yes-btn" id="yesBtn" onclick="sayYes()">Yes! 💕</button>
+                <button class="no-btn" id="noBtn">No 💔</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Celebration -->
+        <div id="celebrationPage" class="celebration">
+            <div class="card">
+                <div class="celebration-hearts">💖💕💗💓💝</div>
+                <h2>Yay! 🎉</h2>
+                <div class="heart-face">😘</div>
+                <p style="font-size: 24px; color: #ff69b4; margin: 20px 0;">
+                    <span id="crushNameCelebration"></span> said YES!
+                </p>
+                <p style="font-size: 18px; color: #ff1493; margin: 20px 0;">
+                    We're going to have the best Valentine's Day ever! 💑
+                </p>
+                <div class="celebration-hearts">✨🌹✨🌹✨</div>
+                <p style="color: #4caf50; margin-top: 20px; font-size: 16px;">
+                    📱 Opening WhatsApp to notify <span id="senderNameNotify"></span>...
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let crushName = "";
+        let senderName = "";
+        let senderWhatsApp = "";
+        let noButtonInitialized = false;
+
+        // Check if URL has proposal data
+        window.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const crush = urlParams.get('crush');
+            const sender = urlParams.get('sender');
+            const whatsapp = urlParams.get('wa');
+
+            if (crush && sender && whatsapp) {
+                // Show proposal page
+                crushName = decodeURIComponent(crush);
+                senderName = decodeURIComponent(sender);
+                senderWhatsApp = decodeURIComponent(whatsapp);
+                
+                document.getElementById('senderPage').classList.add('hidden');
+                document.getElementById('proposalPage').classList.remove('hidden');
+                document.getElementById('crushNameDisplay').textContent = crushName;
+                document.getElementById('senderNameDisplay').textContent = senderName;
+                
+                // Initialize no button after page loads
+                setTimeout(initializeNoButton, 500);
+            }
+        });
+
+        function createProposal() {
+            const crush = document.getElementById('crushNameInput').value.trim();
+            const sender = document.getElementById('yourNameInput').value.trim();
+            const whatsapp = document.getElementById('whatsappInput').value.trim();
+
+            if (!crush || !sender) {
+                alert('❤️ Please enter both names!');
+                return;
+            }
+
+            if (!whatsapp || !whatsapp.startsWith('+')) {
+                alert('📱 Please enter your WhatsApp with country code!\n\nExample: +911234567890');
+                return;
+            }
+
+            // Create shareable link
+            const baseUrl = window.location.origin + window.location.pathname;
+            const shareLink = `${baseUrl}?crush=${encodeURIComponent(crush)}&sender=${encodeURIComponent(sender)}&wa=${encodeURIComponent(whatsapp)}`;
+
+            // Copy to clipboard
+            navigator.clipboard.writeText(shareLink).then(() => {
+                alert(`✅ Link copied to clipboard!\n\nShare this link with ${crush}:\n\n${shareLink}\n\nYou can send it via WhatsApp, Instagram, or any messaging app! 💕`);
+            }).catch(() => {
+                // Fallback if clipboard doesn't work
+                prompt('📋 Copy this link and send it to your crush:', shareLink);
+            });
+        }
+
+        function initializeNoButton() {
+            if (noButtonInitialized) return;
+            noButtonInitialized = true;
+
+            const noBtn = document.getElementById('noBtn');
+            const container = document.getElementById('buttonsContainer');
+            const yesBtn = document.getElementById('yesBtn');
+            
+            if (!noBtn || !container) return;
+
+            // Set initial position - place it below yes button
+            setTimeout(() => {
+                const containerRect = container.getBoundingClientRect();
+                const yesRect = yesBtn.getBoundingClientRect();
+                
+                noBtn.style.left = '50%';
+                noBtn.style.transform = 'translateX(-50%)';
+                noBtn.style.top = (yesRect.bottom - containerRect.top + 20) + 'px';
+            }, 100);
+
+            function moveButton(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const containerRect = container.getBoundingClientRect();
+                const btnRect = noBtn.getBoundingClientRect();
+                
+                let clientX, clientY;
+                
+                if (e.type.includes('touch')) {
+                    if (e.touches && e.touches.length > 0) {
+                        clientX = e.touches[0].clientX;
+                        clientY = e.touches[0].clientY;
+                    } else {
+                        return;
+                    }
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+                
+                const btnCenterX = btnRect.left + btnRect.width / 2;
+                const btnCenterY = btnRect.top + btnRect.height / 2;
+                
+                const distance = Math.sqrt(
+                    Math.pow(clientX - btnCenterX, 2) + 
+                    Math.pow(clientY - btnCenterY, 2)
+                );
+                
+                // Increase detection range for better mobile experience
+                if (distance < 150) {
+                    const angle = Math.atan2(btnCenterY - clientY, btnCenterX - clientX);
+                    const moveDistance = 120;
+                    
+                    const newX = Math.cos(angle) * moveDistance;
+                    const newY = Math.sin(angle) * moveDistance;
+                    
+                    const currentLeft = btnRect.left - containerRect.left;
+                    const currentTop = btnRect.top - containerRect.top;
+                    
+                    let finalX = currentLeft + newX;
+                    let finalY = currentTop + newY;
+                    
+                    const maxX = containerRect.width - btnRect.width - 10;
+                    const maxY = containerRect.height - btnRect.height - 10;
+                    
+                    finalX = Math.max(10, Math.min(finalX, maxX));
+                    finalY = Math.max(10, Math.min(finalY, maxY));
+                    
+                    noBtn.style.left = finalX + 'px';
+                    noBtn.style.top = finalY + 'px';
+                    noBtn.style.transform = 'none';
+                }
+            }
+            
+            // Mouse events for desktop
+            container.addEventListener('mousemove', moveButton);
+            noBtn.addEventListener('mouseenter', moveButton);
+            
+            // Touch events for mobile
+            container.addEventListener('touchstart', moveButton, { passive: false });
+            container.addEventListener('touchmove', moveButton, { passive: false });
+            noBtn.addEventListener('touchstart', moveButton, { passive: false });
+        }
+
+        function sayYes() {
+            document.getElementById('crushNameCelebration').textContent = crushName;
+            document.getElementById('senderNameNotify').textContent = senderName;
+            document.getElementById('proposalPage').classList.add('hidden');
+            document.getElementById('celebrationPage').classList.add('active');
+            
+            sendNotification();
+            createFloatingHearts();
+        }
+
+        function sendNotification() {
+            if (senderWhatsApp) {
+                const message = `🎉💕 AMAZING NEWS! 💕🎉\n\n${crushName} said YES to being your Valentine! ❤️🌹\n\nCongratulations! Your Valentine's proposal was accepted! 💑✨`;
+                const whatsappUrl = `https://wa.me/${senderWhatsApp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
+                
+                setTimeout(() => {
+                    window.open(whatsappUrl, '_blank');
+                }, 1500);
+            }
+        }
+
+        function createFloatingHearts() {
+            const hearts = ['💖', '💕', '💗', '💓', '💝', '❤️', '💘'];
+            
+            const interval = setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'floating-hearts';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 4000);
+            }, 300);
+
+            // Stop after 20 seconds
+            setTimeout(() => clearInterval(interval), 20000);
+        }
+    </script>
+</body>
+</html>
